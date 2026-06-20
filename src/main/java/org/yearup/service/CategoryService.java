@@ -31,17 +31,21 @@ public class CategoryService
     public Category create(Category category)
     {
         // create a new category
-        return null;
+        return categoryRepository.save(category);
     }
 
     public Category update(int categoryId, Category category)
     {
         // update category and return the updated category
-        return null;
+        Category oldCategory = categoryRepository.findById(categoryId).orElse(null);
+        oldCategory.setName(category.getName());
+        oldCategory.setDescription(category.getDescription());
+        return categoryRepository.save(oldCategory);
     }
 
     public void delete(int categoryId)
     {
         // delete category
+        categoryRepository.deleteById(categoryId);
     }
 }
