@@ -17,8 +17,7 @@ public class ProfileController {
     private final ProfileService profileService;
     private final UserService userService;
 
-    public ProfileController(ProfileService profileService,
-                             UserService userService)
+    public ProfileController(ProfileService profileService, UserService userService)
     {
         this.profileService = profileService;
         this.userService = userService;
@@ -27,18 +26,15 @@ public class ProfileController {
     @GetMapping
     public Profile getProfile(Principal principal)
     {
-        User user =
-                userService.getByUserName(principal.getName());
+        User user = userService.getByUserName(principal.getName());
 
         return profileService.getByUserId(user.getId());
     }
 
     @PutMapping
-    public Profile updateProfile(@RequestBody Profile profile,
-                                 Principal principal)
+    public Profile updateProfile(@RequestBody Profile profile, Principal principal)
     {
-        User user =
-                userService.getByUserName(principal.getName());
+        User user = userService.getByUserName(principal.getName());
 
         return profileService.update(user.getId(), profile);
     }

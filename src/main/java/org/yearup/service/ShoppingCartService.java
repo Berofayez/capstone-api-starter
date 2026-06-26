@@ -44,8 +44,7 @@ public class ShoppingCartService
 
     public ShoppingCart addProduct(int userId, int productId)
     {
-        CartItem existing =
-                shoppingCartRepository.findByUserIdAndProductId(userId, productId);
+        CartItem existing = shoppingCartRepository.findByUserIdAndProductId(userId, productId);
 
         if(existing == null)
         {

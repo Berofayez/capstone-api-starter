@@ -1,6 +1,5 @@
 package org.yearup.controllers;
 
-import org.hibernate.annotations.NotFound;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -70,10 +69,9 @@ public class CategoriesController
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Category> addCategory(@RequestBody Category category)
     {
-
         // insert the category and return it with status 201 Created
         Category newCategory = categoryService.create(category);
-        return new ResponseEntity<>(newCategory, HttpStatus.CREATED);
+        return ResponseEntity.status(HttpStatus.CREATED).body(newCategory);
     }
 
     // add annotation to call this method for a PUT (update) action - the url path must include the categoryId
@@ -83,6 +81,9 @@ public class CategoriesController
     public Category updateCategory(@PathVariable int id, @RequestBody Category category)
     {
         // update the category by id and return the updated category (200 OK)
+        if (categoryService.getById(id) == null)
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+
         return categoryService.update(id, category);
     }
 
@@ -95,6 +96,6 @@ public class CategoriesController
     {
         // delete the category by id and return status 204 No Content
         categoryService.delete(id);
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        return ResponseEntity.noContent().build();
     }
 }
